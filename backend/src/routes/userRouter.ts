@@ -7,6 +7,7 @@ export const userRouter = new Hono<{
 }>();
 
 userRouter.post("/signup", async (c) => {
+  //"/api/v1/user/signup"
   const prisma = getPrisma(c.env.DATABASE_URL);
 
   const body = await c.req.json();
@@ -27,6 +28,7 @@ userRouter.post("/signup", async (c) => {
 });
 
 userRouter.post("/signin", async (c) => {
+  //"/api/v1/user/signin"
   const prisma = getPrisma(c.env.DATABASE_URL);
 
   const body = await c.req.json();
@@ -43,7 +45,7 @@ userRouter.post("/signin", async (c) => {
         error: "l*nd insaan signin kar rha hain, signup kiye bagair?",
       });
 
-    const token = sign({ id: user.id }, c.env.JWT_SECRET);
+    const token = await sign({ id: user.id }, c.env.JWT_SECRET);
     return c.json({ jwt: token });
   } catch (error) {
     c.status(403);
