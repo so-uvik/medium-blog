@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@def4lt_dev/medium-common':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@prisma/client':
         specifier: 5.19.0
         version: 5.19.0(prisma@5.19.0)
@@ -74,6 +77,9 @@ packages:
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
+
+  '@def4lt_dev/medium-common@1.0.0':
+    resolution: {integrity: sha512-rQi9PnF+jbslPc5XC/X+aP19OQ7l6oK7k+Mjq/6WIS03UcWQNFDQZAPreAIIllPzrOFy3XXLnx/rQ9PGYqxTlg==}
 
   '@esbuild-plugins/node-globals-polyfill@0.2.3':
     resolution: {integrity: sha512-r3MIryXDeXDOZh7ih1l/yE9ZLORCd5e8vWg02azWRGj5SPTuoh69A2AIyn0Z31V/kHBfZ4HgWJ+OK3GTTwLmnw==}
@@ -579,6 +585,10 @@ snapshots:
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+
+  '@def4lt_dev/medium-common@1.0.0':
+    dependencies:
+      zod: 3.23.8
 
   '@esbuild-plugins/node-globals-polyfill@0.2.3(esbuild@0.17.19)':
     dependencies:
