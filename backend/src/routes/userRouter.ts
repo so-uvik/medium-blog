@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { Bindings, getPrisma } from "../index";
 import { sign } from "hono/jwt";
+import { signinInput, signupInput } from "@def4lt_dev/medium-common";
 
 export const userRouter = new Hono<{
   Bindings: Bindings;
@@ -11,6 +12,11 @@ userRouter.post("/signup", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
 
   const body = await c.req.json();
+  const { success, error } = signupInput.safeParse(body);
+  if (!success) {
+    c.status(400);
+    return c.json({ message: "Wrong inputs provided", error: error });
+  }
   try {
     const user = await prisma.user.create({
       data: {
@@ -32,6 +38,11 @@ userRouter.post("/signin", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
 
   const body = await c.req.json();
+  const { success, error } = signinInput.safeParse(body);
+  if (!success) {
+    c.status(400);
+    return c.json({ message: "Wrong inputs provided", error: error.format() });
+  }
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -40,10 +51,12 @@ userRouter.post("/signin", async (c) => {
       },
     });
 
-    if (!user)
+    if (!user) {
+      c.status(400);
       return c.json({
         error: "l*nd insaan signin kar rha hain, signup kiye bagair?",
       });
+    }
 
     const token = await sign({ id: user.id }, c.env.JWT_SECRET);
     return c.json({ jwt: token });

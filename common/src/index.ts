@@ -1,13 +1,13 @@
 import { z } from "zod";
 
-const signupInput = z.object({
-  username: z.string().email(),
+export const signupInput = z.object({
+  email: z.string().email(),
   password: z.string().min(8),
   name: z.string().optional(),
 });
 
-const signinInput = z.object({
-  username: z.string().email(),
+export const signinInput = z.object({
+  email: z.string().email(),
   password: z.string().min(6),
 });
 

@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { Bindings, getPrisma } from "..";
 import { Variables } from "../index";
 import { verify } from "hono/jwt";
+import { createBlogInput, updateBlogInput } from "@def4lt_dev/medium-common";
 
 export const blogRouter = new Hono<{
   Bindings: Bindings;
@@ -34,6 +35,11 @@ blogRouter.post("/", async (c) => {
   const userId = c.get("userId");
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json();
+  const { success, error } = createBlogInput.safeParse(body);
+  if (!success) {
+    c.status(400);
+    return c.json({ message: "Wrong inputs provided", error: error.format() });
+  }
   try {
     const post = await prisma.post.create({
       data: {
@@ -58,6 +64,11 @@ blogRouter.put("/", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
   const userId = c.get("userId");
   const body = await c.req.json();
+  const { success, error } = updateBlogInput.safeParse(body);
+  if (!success) {
+    c.status(400);
+    return c.json({ message: "Wrong inputs provided", error: error.format() });
+  }
   try {
     await prisma.post.update({
       where: {
